@@ -1,6 +1,6 @@
 " Author: Huang Po-Hsuan <aben20807@gmail.com>
 " Filename: snipmater.vim
-" Last Modified: 2018-04-17 16:17:10
+" Last Modified: 2018-04-17 16:45:43
 " Vim: enc=utf-8
 
 " Function: commenter#InitVariable() function
@@ -50,17 +50,32 @@ endfunction
 function! snipmater#SetUpFiletype(filetype) abort
     let b:ft = a:filetype
     let b:snippet = b:snipmater_plug_path . "/../snippets/" . b:ft . ".config"
-    for l:l in readfile(b:snippet)
-        " call snipmater#ShowInfo(l:l)
-        " echoerr l:l
-    endfor
-    let b:x = readfile(b:snippet)[1:2]
-    execute("inoreab <buffer> <silent> _for " . join(b:x, "\<CR>"))
+    call snipmater#MapAllAbbr()
 endfunction
 
 
 " Function: snipmater#MapAbbr
 " Map abbreviate
-function! snipmater#MapAbbr()
-    execute("inoreab <buffer> <silent> _for <C-R>=Ffor()<CR>")
+function! snipmater#MapAbbr(abbr, str)
+    execute "inoreab <buffer> <silent> " . a:abbr . " " . a:str .
+                \ " <C-R>=Eatchar(\'\\m\\s\\<bar>\\r\')<CR>"
+endfunction
+
+
+function! snipmater#MapAllAbbr()
+    let b:x = readfile(b:snippet)[1:2]
+    let l:str = []
+    for l:line in readfile(b:snippet)
+        if l:line[0] ==# '^'
+            let l:abbr = l:line[1:]
+        elseif l:line[0] ==# '$'
+            call snipmater#MapAbbr(l:abbr, join(l:str, "\<CR>"))
+            let l:str = []
+        else
+            call add(l:str, l:line)
+        endif
+        " call snipmater#ShowInfo(l:line)
+        " echoerr join(l:str, " ")
+    endfor
+    " execute("inoreab <buffer> <silent> _for " . join(b:x, "\<CR>"))
 endfunction
