@@ -1,6 +1,6 @@
 " Author: Huang Po-Hsuan <aben20807@gmail.com>
 " Filename: snipmater.vim
-" Last Modified: 2018-04-17 12:39:41
+" Last Modified: 2018-04-17 13:00:06
 " Vim: enc=utf-8
 
 if exists("has_loaded_snipmater")
@@ -13,10 +13,10 @@ endif
 let has_loaded_snipmater = 1
 " Get plug absolute path
 " Ref: https://stackoverflow.com/a/18734557/6734174
-let s:snipmater_plug_path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+let b:snipmater_plug_path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
 augroup comment
-    " autocmd BufEnter,BufRead,BufNewFile * call snipmater#SetUpFiletype(&filetype)
+    autocmd BufEnter,BufRead,BufNewFile * call snipmater#SetUpFiletype(&filetype)
 augroup END
 
 call snipmater#InitVariable("g:snipmater_use_default_mapping",  1)
@@ -25,7 +25,7 @@ call snipmater#InitVariable("g:snipmater_show_info",            1)
 function! Ffor()
     call snipmater#Eatchar('\m\s\<bar>\r')
     " execute "put=readfile('defaultTest.c')[0:1]"
-    return s:snipmater_plug_path
+    return b:snipmater_plug_path
 endfunction
 
 

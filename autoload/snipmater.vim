@@ -1,6 +1,6 @@
 " Author: Huang Po-Hsuan <aben20807@gmail.com>
 " Filename: snipmater.vim
-" Last Modified: 2018-04-17 12:37:15
+" Last Modified: 2018-04-17 13:00:02
 " Vim: enc=utf-8
 
 " Function: commenter#InitVariable() function
@@ -40,4 +40,16 @@ endfunction
 function! snipmater#Eatchar(pat) abort
     let c = nr2char(getchar(0))
     return (c =~ a:pat)? '': c
+endfunction
+
+
+" Function: snipmater#SetUpFiletype(filetype) function
+" Set up filetype.
+" Args:
+"   -filetype
+function! snipmater#SetUpFiletype(filetype) abort
+    let b:ft = a:filetype
+    let b:snippet = b:snipmater_plug_path . "/../snippets/" . b:ft . ".config"
+    let l:l = readfile(b:snippet)[0:1]
+    call snipmater#ShowInfo(l:l)
 endfunction
