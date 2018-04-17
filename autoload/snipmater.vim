@@ -1,6 +1,6 @@
 " Author: Huang Po-Hsuan <aben20807@gmail.com>
 " Filename: snipmater.vim
-" Last Modified: 2018-04-17 13:00:02
+" Last Modified: 2018-04-17 16:17:10
 " Vim: enc=utf-8
 
 " Function: commenter#InitVariable() function
@@ -50,6 +50,17 @@ endfunction
 function! snipmater#SetUpFiletype(filetype) abort
     let b:ft = a:filetype
     let b:snippet = b:snipmater_plug_path . "/../snippets/" . b:ft . ".config"
-    let l:l = readfile(b:snippet)[0:1]
-    call snipmater#ShowInfo(l:l)
+    for l:l in readfile(b:snippet)
+        " call snipmater#ShowInfo(l:l)
+        " echoerr l:l
+    endfor
+    let b:x = readfile(b:snippet)[1:2]
+    execute("inoreab <buffer> <silent> _for " . join(b:x, "\<CR>"))
+endfunction
+
+
+" Function: snipmater#MapAbbr
+" Map abbreviate
+function! snipmater#MapAbbr()
+    execute("inoreab <buffer> <silent> _for <C-R>=Ffor()<CR>")
 endfunction
