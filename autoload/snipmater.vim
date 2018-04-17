@@ -1,6 +1,6 @@
 " Author: Huang Po-Hsuan <aben20807@gmail.com>
 " Filename: snipmater.vim
-" Last Modified: 2018-04-17 16:55:21
+" Last Modified: 2018-04-17 17:33:12
 " Vim: enc=utf-8
 
 " Function: commenter#InitVariable() function
@@ -49,7 +49,8 @@ endfunction
 "   -filetype
 function! snipmater#SetUpFiletype(filetype) abort
     let b:ft = a:filetype
-    let l:snippet_config_file = b:snipmater_plug_path . "/../snippets/" . b:ft . ".config"
+    let l:snippet_config_file = b:snipmater_plug_path
+                \. "/../snippets/" . b:ft . ".config"
     call snipmater#MapAllAbbr(l:snippet_config_file)
 endfunction
 
@@ -61,20 +62,24 @@ endfunction
 "   -str: the result want to become abbr
 function! snipmater#MapAbbr(abbr, str) abort
     execute "inoreab <buffer> <silent> " . a:abbr . " " . a:str .
-                \ " <C-R>=Eatchar(\'\\m\\s\\<bar>\\r\')<CR>"
+                \ " <C-R>=snipmater#Eatchar(\'\\m\\s\\<bar>\\r\')<CR>"
+                " \ " <C-R>=snipmater#Move()<CR>"
 endfunction
 
 
 " Function: snipmater#MapAllAbbr() function
 " Read config file and abbr all items in the congfig file
 function! snipmater#MapAllAbbr(config_file) abort
+    if !filereadable(a:config_file)
+        return
+    endif
     let l:str = []
     for l:line in readfile(a:config_file)
         if l:line[0] ==# '^'
             let l:abbr = l:line[1:]
+            let l:str = []
         elseif l:line[0] ==# '$'
             call snipmater#MapAbbr(l:abbr, join(l:str, "\<CR>"))
-            let l:str = []
         else
             call add(l:str, l:line)
         endif
