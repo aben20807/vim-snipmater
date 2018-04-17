@@ -1,6 +1,6 @@
 " Author: Huang Po-Hsuan <aben20807@gmail.com>
 " Filename: snipmater.vim
-" Last Modified: 2018-04-17 11:50:34
+" Last Modified: 2018-04-17 12:37:15
 " Vim: enc=utf-8
 
 " Function: commenter#InitVariable() function
@@ -32,4 +32,12 @@ function! snipmater#ShowInfo(str) abort
         echo a:str
         echohl NONE
     endif
+endfunction
+
+
+" Function: snipmater#Eatchar(pat) function
+" Ignore char c if c is one member of pat after abbr
+function! snipmater#Eatchar(pat) abort
+    let c = nr2char(getchar(0))
+    return (c =~ a:pat)? '': c
 endfunction

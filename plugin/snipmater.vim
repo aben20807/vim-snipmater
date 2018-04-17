@@ -1,6 +1,6 @@
 " Author: Huang Po-Hsuan <aben20807@gmail.com>
 " Filename: snipmater.vim
-" Last Modified: 2018-04-17 11:50:16
+" Last Modified: 2018-04-17 12:39:41
 " Vim: enc=utf-8
 
 if exists("has_loaded_snipmater")
@@ -23,6 +23,7 @@ call snipmater#InitVariable("g:snipmater_use_default_mapping",  1)
 call snipmater#InitVariable("g:snipmater_show_info",            1)
 
 function! Ffor()
+    call snipmater#Eatchar('\m\s\<bar>\r')
     " execute "put=readfile('defaultTest.c')[0:1]"
     return s:snipmater_plug_path
 endfunction
