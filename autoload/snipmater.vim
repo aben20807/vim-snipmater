@@ -1,6 +1,6 @@
 " Author: Huang Po-Hsuan <aben20807@gmail.com>
 " Filename: snipmater.vim
-" Last Modified: 2018-04-17 17:33:12
+" Last Modified: 2018-06-02 18:18:25
 " Vim: enc=utf-8
 
 " Function: commenter#InitVariable() function
@@ -48,6 +48,8 @@ endfunction
 " Args:
 "   -filetype
 function! snipmater#SetUpFiletype(filetype) abort
+    if !exists("l:snippet_config_file")
+        return
     let b:ft = a:filetype
     let l:snippet_config_file = b:snipmater_plug_path
                 \. "/../snippets/" . b:ft . ".config"
@@ -73,6 +75,7 @@ function! snipmater#MapAllAbbr(config_file) abort
     if !filereadable(a:config_file)
         return
     endif
+    setl noai nocin nosi inde=
     let l:str = []
     for l:line in readfile(a:config_file)
         if l:line[0] ==# '^'
